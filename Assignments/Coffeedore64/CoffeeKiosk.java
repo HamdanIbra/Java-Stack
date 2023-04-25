@@ -4,11 +4,9 @@ public class CoffeeKiosk{
     ArrayList<Order> orders;
     private int itemsCount = 0;
     public CoffeeKiosk(){
-        ArrayList<Item> newitems = new ArrayList<Item>();
-        this.menu =newitems;
-
-        ArrayList<Order> neworders = new ArrayList<Order>();
-        this.orders =neworders;
+        ArrayList<Item> newitems = ;
+        this.menu =new ArrayList<Item>();
+        this.orders =new ArrayList<Order>();
     }
 
     public void addMenuItem(String name,double price){

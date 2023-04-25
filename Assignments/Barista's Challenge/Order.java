@@ -6,14 +6,12 @@ public class Order{
 
     public Order(){
         this.name="Guest";
-        ArrayList<Item> newitems = new ArrayList<Item>();
-        this.items =newitems;
+        this.items =new ArrayList<Item>();
     }
 
     public Order(String name){
         this.name=name;
-        ArrayList<Item> newitems = new ArrayList<Item>();
-        this.items =newitems;
+        this.items =new ArrayList<Item>();
     }
 
     public void setName(String name){

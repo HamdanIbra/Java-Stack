@@ -5,7 +5,7 @@ public class BankAccount{
     public BankAccount(double checkingBalance, double savingsBalance){
         this.checkingBalance = checkingBalance;
         this.savingsBalance = savingsBalance;
-        this.numberOfAccounts++;
+        BankAccount.numberOfAccounts++;
     }
 
     public double getCheckingBalance(){
