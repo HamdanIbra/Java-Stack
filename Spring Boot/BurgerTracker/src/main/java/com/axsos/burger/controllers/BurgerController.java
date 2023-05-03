@@ -51,11 +51,10 @@ public class BurgerController {
 		     return "edit.jsp";
 	    }
 	    
-	    @PutMapping("/edit/{id}")
-	    public String editing(@Valid @ModelAttribute("burger") Burger burger,@PathVariable("id") Long id,BindingResult result,Model model) {
+	    @PutMapping("/handle")
+	    public String editing(@Valid @ModelAttribute("burger") Burger burger,BindingResult result,Model model) {
 	    	if (result.hasErrors()) {
-	    		Burger burger1 = burgerService.findBurger(id);
-			     model.addAttribute("burger",burger1);
+			     model.addAttribute("burger",burger);
 			     return "edit.jsp";
 	        } else {
 	        	burger=burgerService.updateBurger(burger);

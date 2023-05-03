@@ -18,7 +18,7 @@
 
 
 <h1>Edit Burger:</h1>
-<form:form action="/edit/${burger.id }" method="post" modelAttribute="burger">
+<form:form action="/handle/${burger.id}" method="post" modelAttribute="burger">
 <input type="hidden" name="_method" value="put">
     <p>
         <form:label path="burgerName">Burger Name </form:label>
@@ -32,7 +32,7 @@
     </p>
     <p>
         <form:label path="rating">Rating</form:label>
-        <form:input type="number" path="rating" value="${burger.rating }"/>
+        <form:input type="number" path="rating" />
         <form:errors path="rating"/>
     </p>
     <p>
