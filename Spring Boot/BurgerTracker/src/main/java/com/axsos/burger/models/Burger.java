@@ -30,7 +30,7 @@ public class Burger {
     @Size(min = 1, max = 200)
     private String restaurantName;
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 200)
     private String notes;
     @NotNull
     @Min(1)

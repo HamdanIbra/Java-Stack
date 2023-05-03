@@ -14,45 +14,25 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Burger Tracker</h1>
-	<table>
-    <thead>
-        <tr>
-            <th>Burger Name</th>
-            <th>Restaurant Name</th>
-            <th>Rating(out of 5)</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-		<!-- Iterate over the list and display each element as a separate paragraph -->
-		<c:forEach items="${allburgers}" var="burger">
-    <tr>
-      <td>${burger.burgerName}</td>
-      <td>${burger.restaurantName}</td>
-      <td>${burger.rating}</td>
-      <td><a href="/edit/${burger.id}">edit<a/></td>
-    </tr>
-  </c:forEach>
-    </tbody>
-</table>
+	
 
 
-<h1>Add a Burger:</h1>
-<form:form action="/new" method="post" modelAttribute="burger">
+<h1>Edit Burger:</h1>
+<form:form action="/edit/${burger.id }" method="post" modelAttribute="burger">
+<input type="hidden" name="_method" value="put">
     <p>
         <form:label path="burgerName">Burger Name </form:label>
-        <form:input path="burgerName"/>
+        <form:input path="burgerName" value="${burger.burgerName }"/>
         <form:errors path="burgerName"/>
     </p>
     <p>
         <form:label path="restaurantName">Restaurant Name</form:label>
-        <form:input  path="restaurantName"/>
+        <form:input  path="restaurantName" value="${burger.restaurantName }"/>
         <form:errors path="restaurantName"/>
     </p>
     <p>
         <form:label path="rating">Rating</form:label>
-        <form:input type="number" path="rating"/>
+        <form:input type="number" path="rating" value="${burger.rating }"/>
         <form:errors path="rating"/>
     </p>
     <p>
