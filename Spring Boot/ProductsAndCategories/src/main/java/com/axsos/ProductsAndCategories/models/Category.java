@@ -11,7 +11,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -47,8 +49,13 @@ public class Category {
         this.createdAt = new Date();
     }
 	
-	@OneToMany(mappedBy="category", fetch=FetchType.LAZY)
-    private List<CategoryProduct> products;
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "categories_products", 
+        joinColumns = @JoinColumn(name = "category_id"), 
+        inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products;
 	
 	public Category() {
     }
@@ -89,11 +96,11 @@ public class Category {
 		this.updatedAt = updatedAt;
 	}
 
-	public List<CategoryProduct> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<CategoryProduct> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
     

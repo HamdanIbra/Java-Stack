@@ -86,17 +86,30 @@ public class AppService {
 			return categoryRepository.findAllByProducts(b);
 		}
 		
-		public List<Category> findCategoriesNotContains(Product b){
+		public List<Product> findByCategoriesNotContains(Category b){
+			return productRepository.findByCategoriesNotContains(b);
+		}
+		
+		public List<Category> findByProductsNotContains(Product b){
 			return categoryRepository.findByProductsNotContains(b);
 		}
 		
 		
-		
-		public List<Product> findProductssByCategory(Category b){
+		public List<Product> findProductsByCategory(Category b){
 			return productRepository.findAllByCategories(b);
 		}
 		
-		public List<Product> findProductsNotContains(Category b){
-			return productRepository.findByCategoriesNotContains(b);
+		
+		
+		public Category addProductToCategory(Category cat,Product prod) {
+			cat.getProducts().add(prod);
+			categoryRepository.save(cat);
+			return cat;
+		}
+		
+		public Product addCategoryToProduct(Category cat,Product prod) {
+			prod.getCategories().add(cat);
+			productRepository.save(prod);
+			return prod;
 		}
 }

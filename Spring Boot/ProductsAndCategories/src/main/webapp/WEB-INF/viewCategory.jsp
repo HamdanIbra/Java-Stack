@@ -33,8 +33,8 @@
     <p>
         <label >Add Product: </label>
         <select name="prodid">
-            <c:forEach items="${alldojos}" var="dojo">
-                <option value="${dojo.id}">${dojo.name}</option>
+            <c:forEach items="${missingproducts}" var="pro">
+                <option value="${pro.id}">${pro.name}</option>
             </c:forEach>
         </select>
     </p>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.axsos.ProductsAndCategories.models.Category;
 
@@ -72,7 +72,7 @@ public class AppController {
     public String viewProduct(@PathVariable("id") Long id,Model model,@ModelAttribute("product") Product product) {
 	 Product product1 = appService.findProduct(id);
      model.addAttribute("product",product1);
-     List<Category> missingCategories=appService.findCategoriesNotContains(product1);
+     List<Category> missingCategories=appService.findByProductsNotContains(product1);
  	 model.addAttribute("missingcategories",missingCategories);
  	List<Category> existingCategories=appService.findCategoriesByProduct(product1);
 	 model.addAttribute("existingcategories",existingCategories);
@@ -83,21 +83,29 @@ public class AppController {
     public String viewCategory(@PathVariable("id") Long id,Model model,@ModelAttribute("category") Category category) {
 	 Category category1 = appService.findCategory(id);
      model.addAttribute("category",category1);
-     List<Product> missingProducts=appService.findProductsNotContains(category1);
+     List<Product> missingProducts=appService.findByCategoriesNotContains(category1);
  	 model.addAttribute("missingproducts",missingProducts);
- 	List<Product> existingProducts=appService.findProductssByCategory(category1);
+ 	List<Product> existingProducts=appService.findProductsByCategory(category1);
 	 model.addAttribute("existingproducts",existingProducts);
         return "viewCategory.jsp";
     }
 	
-//	@PostMapping("/addproduct")
-//    public String addProduct(  @RequestParam(value = "prodid") Long prodId, @RequestParam(value = "catid") Long catId) {
-//		Product product1 = appService.findProduct(prodId);
-//		Category category1 = appService.findCategory(catId);
-//		List<CategoryProduct> catprods = category1.getProducts();
-//		catprods.
-//		
-//        }
+	@PostMapping("/addproduct")
+    public String addProduct(  @RequestParam(value = "prodid") Long prodId, @RequestParam(value = "catid") Long catId) {
+		Product product1 = appService.findProduct(prodId);
+		Category category1=appService.findCategory(catId);
+		appService.addProductToCategory(category1, product1);
+		return "redirect:/categories/"+catId;
+        }
+	
+	
+	@PostMapping("/addcategory")
+    public String addCategory(  @RequestParam(value = "catid") Long catId, @RequestParam(value = "prodid") Long prodId) {
+		Product product1 = appService.findProduct(prodId);
+		Category category1=appService.findCategory(catId);
+		appService.addCategoryToProduct(category1, product1);
+		return "redirect:/categories/"+prodId;
+        }
 	
 	
 	
