@@ -19,14 +19,15 @@
 	<div class="container-fluid">
 		<div class="row d-flex justify-content-between">
 			<div class="col">
-				<h1>Add a Book to Your Shelf! </h1>
+				<h1>Change Your Entry </h1>
 			</div>
 			<div class="col">
 				<p><a href="/books">back to the shelves</a></p>
 			</div>
 		</div>
 		
-		<form:form action="/newbook" method="post" modelAttribute="book">
+		<form:form action="/editbook" method="post" modelAttribute="book">
+		<input type="hidden" name="_method" value="put">
 		        <div class="form-group">
 		            <label>Title:</label>
 		            <form:input path="title" class="form-control" />
@@ -44,6 +45,7 @@
 		        </div>
 		        <div class="form-group">
 		            <form:input type="hidden" path="owner"  value="${user_id}"  class="form-control" />
+		            <form:input type="hidden" path="borrower"  value="${thisBook.borrower.id }"  class="form-control" />
 		        </div>
 		        <input type="submit" value="Submit" class="btn btn-success"/>
 		    </form:form>

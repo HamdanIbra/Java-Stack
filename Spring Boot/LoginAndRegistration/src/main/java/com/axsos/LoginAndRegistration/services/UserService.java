@@ -14,8 +14,17 @@ import com.axsos.LoginAndRegistration.models.User;
 import com.axsos.LoginAndRegistration.repositories.BookRepository;
 import com.axsos.LoginAndRegistration.repositories.UserRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+
 @Service
 public class UserService {
+	
+	@PersistenceContext
+    private EntityManager entityManager;
+
+    
 	@Autowired
     private UserRepository userRepo;
 	
@@ -47,7 +56,14 @@ public class UserService {
 	
 	public Book updateBook(Book b) {
 		// TODO Auto-generated method stub
-		bookRepo.save(b);
+		
+		return bookRepo.save(b);
+
+	}
+	
+	public User updateUser(User b) {
+		// TODO Auto-generated method stub
+		userRepo.save(b);
 		return b;
 
 	}
@@ -99,5 +115,12 @@ public class UserService {
     	}
 	}
 	
+	public List<Book> findAvailableBooks() {
+	    String jpql = "SELECT b FROM Book b WHERE b.borrower IS NULL";
+	    TypedQuery<Book> query = entityManager.createQuery(jpql, Book.class);
+	    return query.getResultList();
+	}
+	
+
 	
 }

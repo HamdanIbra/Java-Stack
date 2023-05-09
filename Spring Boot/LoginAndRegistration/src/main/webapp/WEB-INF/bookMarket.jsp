@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Read Share</title>
+    <title>Book Lender Dashboard</title>
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css"> <!-- change to match your file/naming structure -->
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
@@ -21,8 +21,9 @@
 	<div class="container-fluid">
 		<div class="row d-flex justify-content-between">
 			<div class="col">
-				<h1>Welcome ${thisUser.userName} </h1>
-				<p>Books from everyone's shelves</p>
+				<h1>Hello, ${thisUser.userName}.Welcome to... </h1>
+				<h1>The Book Broker </h1>
+				<p>Available books to borrow</p>
 			</div>
 			<div class="col">
 				<p><a href="/logout">Logout</a></p>
@@ -35,7 +36,8 @@
       <th scope="col">ID</th>
       <th scope="col">Title</th>
       <th scope="col">Author Name</th>
-      <th scope="col">Posted By</th>
+      <th scope="col">Owner</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -45,9 +47,37 @@
       <td><a href="/books/${book.id}">${book.title}</a></td>
       <td>${book.author}</td>
       <td>${book.owner.userName}</td>
+      <c:if test="${book.owner.id == user_id}">
+  		<td><a href="/edit/${book.id}">edit</a> <a href="/delete/${book.id}">delete</a></td>
+	  </c:if>
+      <c:if test="${book.owner.id != user_id}">
+  		<td><a href="/borrow/${book.id}">borrow</a></td>
+	  </c:if>
     </tr>
     </c:forEach>
     
+  </tbody>
+</table>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Author Name</th>
+      <th scope="col">Owner</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  <c:forEach items="${user1.borrowedBooks}" var="book">
+    <tr>
+      <th scope="row">${book.id}</th>
+      <td><a href="/books/${book.id}">${book.title}</a></td>
+      <td>${book.author}</td>
+      <td>${book.owner.userName}</td>
+	  <td><a href="/return/${book.id}">return</a></td>
+    </tr>
+    </c:forEach>
   </tbody>
 </table>
 	</div>

@@ -27,8 +27,8 @@
 				<p><a href="/books">back to the shelves</a></p>
 			</div>
 		</div>
-		<h2>${book1.user.userName} read ${book1.title} by ${book1.author}</h2>
-		<h3>Here are ${book1.user.userName}'s thoughts:</h3>
+		<h2>${book1.owner.userName} read ${book1.title} by ${book1.author}</h2>
+		<h3>Here are ${book1.owner.userName}'s thoughts:</h3>
 		<p>${book1.myThoughts}  ${thisUser.userName}</p>
 	</div>
 	${thisUser.userName}

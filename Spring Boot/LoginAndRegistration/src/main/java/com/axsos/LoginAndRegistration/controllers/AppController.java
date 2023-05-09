@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.axsos.LoginAndRegistration.models.Book;
 import com.axsos.LoginAndRegistration.models.LoginUser;
 import com.axsos.LoginAndRegistration.models.User;
 import com.axsos.LoginAndRegistration.services.UserService;
-
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -109,6 +109,76 @@ public class AppController {
 		else {
 			return "redirect:/";
 		}
+    }
+	
+	@GetMapping("/bookmarket")
+    public String bookMarket(Model model,HttpSession session) {
+		if (session.getAttribute("user_id") != null) {
+			Long user_id=(Long) session.getAttribute("user_id");
+			User user1=userServ.findUserById(user_id);
+			model.addAttribute("user1",user1);
+			List<Book> allbooks=userServ.findAvailableBooks();
+			model.addAttribute("allbooks",allbooks);
+			return "bookMarket.jsp";
+		}
+		else {
+			return "redirect:/";
+		}
+    }
+	
+	@GetMapping("/borrow/{id}")
+    public String borrowBook(@PathVariable("id") Long id,Model model,HttpSession session) {
+		if (session.getAttribute("user_id") != null) {
+			Book book1 = userServ.findBook(id);
+			Long user_id=(Long) session.getAttribute("user_id");
+			User user1=userServ.findUserById(user_id);
+			book1.setBorrower(user1);
+			userServ.updateBook(book1);
+			return "redirect:/bookmarket";
+		}
+		else {
+			return "redirect:/";
+		}
+    }
+	
+	@GetMapping("/return/{id}")
+    public String returnBook(@PathVariable("id") Long id,Model model,HttpSession session) {
+		if (session.getAttribute("user_id") != null) {
+			Book book1 = userServ.findBook(id);
+			Long user_id=(Long) session.getAttribute("user_id");
+			User user1=userServ.findUserById(user_id);
+			book1.setBorrower(null);
+			userServ.updateBook(book1);
+			user1.getBorrowedBooks().remove(book1);
+			userServ.updateUser(user1);
+			return "redirect:/bookmarket";
+		}
+		else {
+			return "redirect:/";
+		}
+    }
+	
+	@GetMapping("/edit/{id}")
+    public String editBook(@ModelAttribute("book") Book book,@PathVariable("id") Long id,Model model,HttpSession session) {
+		Book book1 = userServ.findBook(id);
+		if (session.getAttribute("user_id") == book1.getOwner().getId()) {
+			model.addAttribute("thisBook", book1);
+			return "editBook.jsp";
+		}
+		else {
+			return "redirect:/bookmarket";
+		}
+    }
+	
+	@PutMapping("/editbook")
+	public String editing(@Valid @ModelAttribute("book") Book book,BindingResult result,Model model) {
+    	if (result.hasErrors()) {
+		     model.addAttribute("thisBook",book);
+				return "editBook.jsp";
+        } else {
+        	book=userServ.updateBook(book);
+            return "redirect:/bookmarket";
+        }
     }
 	
 	
