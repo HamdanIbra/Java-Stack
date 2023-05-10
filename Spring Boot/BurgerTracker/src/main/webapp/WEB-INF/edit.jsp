@@ -18,7 +18,7 @@
 
 
 <h1>Edit Burger:</h1>
-<form:form action="/handle/${burger.id}" method="post" modelAttribute="burger">
+<form:form action="/handle" method="post" modelAttribute="burger">
 <input type="hidden" name="_method" value="put">
     <p>
         <form:label path="burgerName">Burger Name </form:label>

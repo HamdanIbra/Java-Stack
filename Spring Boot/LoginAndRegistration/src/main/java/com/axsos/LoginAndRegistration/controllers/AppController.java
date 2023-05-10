@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
 import com.axsos.LoginAndRegistration.models.Book;
 import com.axsos.LoginAndRegistration.models.LoginUser;
 import com.axsos.LoginAndRegistration.models.User;
@@ -159,27 +158,28 @@ public class AppController {
     }
 	
 	@GetMapping("/edit/{id}")
-    public String editBook(@ModelAttribute("book") Book book,@PathVariable("id") Long id,Model model,HttpSession session) {
+    public String editBook(@ModelAttribute("book") Book book,@PathVariable("id") Long id,Model model) {
 		Book book1 = userServ.findBook(id);
-		if (session.getAttribute("user_id") == book1.getOwner().getId()) {
-			model.addAttribute("thisBook", book1);
+			model.addAttribute("book", book1);
 			return "editBook.jsp";
-		}
-		else {
-			return "redirect:/bookmarket";
-		}
+		
     }
 	
-	@PutMapping("/editbook")
-	public String editing(@Valid @ModelAttribute("book") Book book,BindingResult result,Model model) {
+	@PutMapping("/handle/{id}")
+	public String edit(@Valid @ModelAttribute("book") Book book,BindingResult result,Model model) {
     	if (result.hasErrors()) {
-		     model.addAttribute("thisBook",book);
+    		model.addAttribute("book", book);
 				return "editBook.jsp";
-        } else {
+        }
+    	else {
         	book=userServ.updateBook(book);
             return "redirect:/bookmarket";
         }
     }
 	
-	
+	 @GetMapping("/delete/{id}")
+	    public String deleteBook(@PathVariable("id") Long id) {
+			userServ.deleteBook(id);
+				return "redirect:/bookmarket";
+	    }
 }

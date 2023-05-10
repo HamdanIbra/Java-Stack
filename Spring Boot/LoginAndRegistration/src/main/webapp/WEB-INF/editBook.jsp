@@ -26,8 +26,7 @@
 			</div>
 		</div>
 		
-		<form:form action="/editbook" method="post" modelAttribute="book">
-		<input type="hidden" name="_method" value="put">
+		<form:form action="/handle/${book.id}" method="put" modelAttribute="book">
 		        <div class="form-group">
 		            <label>Title:</label>
 		            <form:input path="title" class="form-control" />

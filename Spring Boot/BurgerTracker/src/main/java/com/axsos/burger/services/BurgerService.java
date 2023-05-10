@@ -40,8 +40,8 @@ public class BurgerService {
 	}
 	public Burger updateBurger(Burger b) {
 		// TODO Auto-generated method stub
-		burgerRepository.save(b);
-		return b;
+		
+		return burgerRepository.save(b);
 
 	}
 	
