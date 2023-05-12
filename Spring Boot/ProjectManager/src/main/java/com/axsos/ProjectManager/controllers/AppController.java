@@ -87,6 +87,28 @@ public class AppController {
 			return "createProject.jsp";
 		}
 	
+	@GetMapping("/join/{id}")
+	public String join(@PathVariable("id") Long id,HttpSession session) {
+		Project project = appServ.findProject(id);
+		Long user_id = (Long) session.getAttribute("user_id");
+    	User thisUser = appServ.findUser(user_id);
+    	project.getTeamMembers().add(thisUser);
+    	appServ.updateProject(project);
+		return "redirect:/dashboard";
+	}
+	
+	@GetMapping("/leave/{id}")
+	public String leave(@PathVariable("id") Long id,HttpSession session) {
+		Project project = appServ.findProject(id);
+		Long user_id = (Long) session.getAttribute("user_id");
+    	User thisUser = appServ.findUser(user_id);
+    	project.getTeamMembers().remove(thisUser);
+    	appServ.updateProject(project);
+		return "redirect:/dashboard";
+	}
+	
+	
+	
 	@PostMapping("/newproject")
     public String createProject(@Valid @ModelAttribute("project") Project project, BindingResult result) {
         if (result.hasErrors()) {
